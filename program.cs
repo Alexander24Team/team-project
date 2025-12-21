@@ -5,6 +5,14 @@ namespace NumberGuessingGame
 {
     public class UIHelper
     {
+        public void ShowWelcomeMessage()
+        {
+            Console.WriteLine("Добро пожаловать в игру 'Угадай Число'!");
+            Console.WriteLine("========================================");
+            Console.WriteLine("Я загадал число от 1 до 100.");
+            Console.WriteLine("Попробуй угадать его за минимальное количество попыток!");
+            Console.WriteLine();
+        }
 
         public int GetUserGuess(int attempt, int maxAttempts)
         {
