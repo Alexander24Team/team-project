@@ -1,72 +1,42 @@
-// UIHelper.cs
 using System;
 
 namespace NumberGuessingGame
 {
-    public class UIHelper
+    class Program
     {
-        public void ShowWelcomeMessage()
+        static void Main(string[] args)
         {
-            Console.WriteLine("Äîáğî ïîæàëîâàòü â èãğó 'Óãàäàé ×èñëî'!");
-            Console.WriteLine("========================================");
-            Console.WriteLine("ß çàãàäàë ÷èñëî îò 1 äî 100.");
-            Console.WriteLine("Ïîïğîáóé óãàäàòü åãî çà ìèíèìàëüíîå êîëè÷åñòâî ïîïûòîê!");
-            Console.WriteLine();
-        }
-
-        public int GetUserGuess(int attempt, int maxAttempts)
-        {
-            Console.Write($"Ïîïûòêà {attempt}/{maxAttempts}. Ââåäèòå ÷èñëî: ");
-
-            while (true)
+            Console.WriteLine("=== Ğ˜Ğ“Ğ Ğ 'Ğ£Ğ“ĞĞ”ĞĞ™ Ğ§Ğ˜Ğ¡Ğ›Ğ' ===");
+            
+            GameLogic game = new GameLogic();
+            UIHelper ui = new UIHelper();
+            
+            bool playAgain = true;
+            
+            while (playAgain)
             {
-                string input = Console.ReadLine();
-
-                if (int.TryParse(input, out int guess) && guess >= 1 && guess <= 100)
+                game.StartNewGame();
+                ui.ShowWelcome();
+                
+                bool gameWon = false;
+                
+                while (!gameWon)
                 {
-                    return guess;
+                    int guess = ui.GetGuess();
+                    var result = game.CheckGuess(guess);
+                    
+                    Console.WriteLine(result.message);
+                    gameWon = result.isCorrect;
+                    
+                    if (result.message.Contains("ĞŸÑ€Ğ¾Ğ¸Ğ³Ñ€Ñ‹Ñˆ"))
+                        break;
                 }
-
-                Console.Write("Îøèáêà! Ââåäèòå ÷èñëî îò 1 äî 100: ");
+                
+                Console.Write("Ğ¡Ñ‹Ğ³Ñ€Ğ°ĞµĞ¼ ĞµÑ‰Ğµ? (Ğ´Ğ°/Ğ½ĞµÑ‚): ");
+                playAgain = Console.ReadLine().ToLower() == "Ğ´Ğ°";
             }
-        }
-
-        public void ShowGuessResult(GuessResult result)
-        {
-            Console.WriteLine();
-
-            if (result.IsCorrect)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(result.Message);
-            }
-            else if (result.AttemptsLeft == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(result.Message);
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(result.Message);
-                Console.WriteLine($"Îñòàëîñü ïîïûòîê: {result.AttemptsLeft}");
-            }
-
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-
-        public bool AskToPlayAgain()
-        {
-            Console.Write("Õîòèòå ñûãğàòü åùå ğàç? (äà/íåò): ");
-            string answer = Console.ReadLine().ToLower();
-            return answer == "äà" || answer == "yes" || answer == "ä";
-        }
-
-        public void ShowGoodbye()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Ñïàñèáî çà èãğó! Äî âñòğå÷è!");
+            
+            Console.WriteLine("Ğ¡Ğ¿Ğ°ÑĞ¸Ğ±Ğ¾ Ğ·Ğ° Ğ¸Ğ³Ñ€Ñƒ!");
         }
     }
 }
